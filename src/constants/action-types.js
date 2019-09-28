@@ -1,0 +1,5 @@
+export default {
+    SET_ACTIVE_PLAYER: 'SET_ACTIVE_PLAYER',
+    ATTACK: 'ATTACK',
+    APPLY_DAMAGE: 'APPLY_DAMAGE'
+}
