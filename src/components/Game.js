@@ -1,12 +1,12 @@
 import React from "react";
 import Character from "./Character";
 
-export default function Game({ applyDamage, attackers, defenders }) {
+export default function Game({ onCharacterClick, attackers, defenders }) {
   return (
     <div>
       <div className="troop">
         {attackers.map(character => {
-          const { id, health, currentHealth, team } = character;
+          const { id, health, currentHealth, team, type } = character;
           return (
             <Character
               key={id}
@@ -14,7 +14,8 @@ export default function Game({ applyDamage, attackers, defenders }) {
               currentHealth={currentHealth}
               id={id}
               team={team}
-              handleClick={applyDamage}
+              type={type}
+              handleClick={onCharacterClick}
             />
           );
         })}
@@ -30,7 +31,7 @@ export default function Game({ applyDamage, attackers, defenders }) {
               currentHealth={currentHealth}
               id={id}
               team={team}
-              handleClick={applyDamage}
+              handleClick={onCharacterClick}
             />
           );
         })}
