@@ -1,7 +1,7 @@
 import React from "react";
 import Character from "./Character";
 
-export default function Game({ onCharacterClick, attackers, defenders }) {
+export default function Game({ activePlayerId, onCharacterClick, attackers, defenders }) {
   return (
     <div>
       <div className="troop">
@@ -16,6 +16,7 @@ export default function Game({ onCharacterClick, attackers, defenders }) {
               team={team}
               type={type}
               handleClick={onCharacterClick}
+              active={activePlayerId === id}
             />
           );
         })}
@@ -32,6 +33,7 @@ export default function Game({ onCharacterClick, attackers, defenders }) {
               id={id}
               team={team}
               handleClick={onCharacterClick}
+              active={activePlayerId === id}
             />
           );
         })}

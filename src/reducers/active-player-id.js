@@ -1,8 +1,8 @@
 import actionTypes from '../constants/action-types';
 
-function activePlayer(state = '', action) {
+function id (state = '', action) {
     switch (action.type) {
-        case actionTypes.SET_ACTIVE_PLAYER: 
+        case actionTypes.SET_ACTIVE_PLAYER_ID: 
             return action.payload.id;
 
         default:
@@ -10,4 +10,4 @@ function activePlayer(state = '', action) {
     }
 }
 
-export default activePlayer;
+export default id;

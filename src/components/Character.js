@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames';
 
-export default function Character({handleClick, health, currentHealth, id, team, type}) {
+export default function Character({handleClick, health, currentHealth, id, team, type, active}) {
     const characterClasses = classNames('character', {
         "archer" : type === 'archer',
         "knight" : type === 'knight',
@@ -10,6 +10,7 @@ export default function Character({handleClick, health, currentHealth, id, team,
         "mage" : type === 'mage',
         "boss" : type === 'boss',
         "skeleton-archer" : type === 'skeleton-archer',
+        "active" : active,
     });
     return (
         <div

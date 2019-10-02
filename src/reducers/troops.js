@@ -4,7 +4,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "knight",
-    attack: 10,
+    attack: 100,
     health: 50,
     currentHealth: 50,
     id: 1,
@@ -13,7 +13,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "doom-knight",
-    attack: 10,
+    attack: 100,
     health: 60,
     currentHealth: 60,
     id: 2,
@@ -22,7 +22,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "boss",
-    attack: 20,
+    attack: 200,
     health: 100,
     currentHealth: 100,
     id: 3,
@@ -31,7 +31,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "mage",
-    attack: 15,
+    attack: 150,
     health: 30,
     currentHealth: 30,
     id: 4,
@@ -40,7 +40,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "skeleton-archer",
-    attack: 5,
+    attack: 50,
     health: 30,
     currentHealth: 30,
     id: 5,
@@ -49,7 +49,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "archer",
-    attack: 5,
+    attack: 50,
     health: 40,
     currentHealth: 40,
     id: 6,

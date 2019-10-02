@@ -1,11 +1,15 @@
 import { combineReducers } from 'redux';
 
-import activePlayer from './active-player';
+import id from './active-player-id';
+import index from './active-player-index';
 import troops from './troops';
 
 const reducer = combineReducers({
-    activePlayer,
-    troops
+    activePlayer: combineReducers({
+        id,
+        index,
+    }),
+    troops,
 });
 
 export default reducer;

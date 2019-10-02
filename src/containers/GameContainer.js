@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import Game from "../components/Game";
-import { setActivePlayer } from "../actions/set-active-player";
+import { setActivePlayerId } from "../actions/set-active-player-id";
+import { setActivePlayerIndex } from "../actions/set-active-player-index";
+import { selectNextActivePlayer } from "../actions/select-next-active-player";
 import { applyDamage } from "../actions/apply-damage";
 import { applyHeal } from "../actions/apply-heal";
 import selectors from "../selectors";
@@ -10,14 +12,20 @@ class GameContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        activePlayerId: 1,
+      charactersOrderedByInitiatives: null
     };
-
     this.onCharacterClick = this.onCharacterClick.bind(this);
   }
   componentDidMount() {
-    const { setActivePlayer } = this.props;
-    setActivePlayer(this.state.activePlayerId);
+    const charactersOrderedByInitiatives = this.calculateInitiatives();
+    const { setActivePlayerId, setActivePlayerIndex } = this.props;
+
+    setActivePlayerId(charactersOrderedByInitiatives[0].id);
+    setActivePlayerIndex(0);
+
+    this.setState(() => ({
+      charactersOrderedByInitiatives
+    }));
   }
 
   calculateInitiatives() {
@@ -31,22 +39,23 @@ class GameContainer extends React.Component {
 
   onCharacterClick(id, team) {
     const {
-      setActivePlayer,
       activePlayerId,
       attackers,
       defenders,
       applyHeal,
-      applyDamage
+      applyDamage,
+      selectNextActivePlayer
     } = this.props;
     const activePlayer =
       attackers.find(character => character.id === activePlayerId) ||
       defenders.find(character => character.id === activePlayerId);
     if (team === activePlayer.team) {
+     
       applyHeal(id, activePlayer.attack, team);
     } else {
       applyDamage(id, activePlayer.attack, team);
     }
-    setActivePlayer(this.state.activePlayerId + 1);
+    selectNextActivePlayer(this.state.charactersOrderedByInitiatives);
   }
 
   render() {
@@ -56,15 +65,19 @@ class GameContainer extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    activePlayerId: state.activePlayer,
+    activePlayerId: state.activePlayer.id,
+    activePlayerIndex: state.activePlayer.index,
     attackers: selectors.getAttackers(state),
-    defenders: selectors.getDefenders(state)
+    defenders: selectors.getDefenders(state),
+    getCharacterById: selectors.getCharacterById(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setActivePlayer: id => dispatch(setActivePlayer(id)),
+    setActivePlayerId: id => dispatch(setActivePlayerId(id)),
+    selectNextActivePlayer: charactersOrderedByInitiatives => dispatch(selectNextActivePlayer(charactersOrderedByInitiatives)),
+    setActivePlayerIndex: index => dispatch(setActivePlayerIndex(index)),
     applyDamage: (id, damage, team) => dispatch(applyDamage(id, damage, team)),
     applyHeal: (id, heal, team) => dispatch(applyHeal(id, heal, team))
   };
