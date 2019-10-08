@@ -1,11 +1,19 @@
 import React from "react";
 import Character from "./Character";
+import classNames from "classnames";
 
-export default function Game({ activePlayerId, onCharacterClick, attackers, defenders }) {
+export default function Battlefield({
+  activePlayerId,
+  onCharacterClick,
+  attackers,
+  defenders,
+  scene
+}) {
+  const locationClasses = classNames("battlefield", "cave", scene);
   return (
-    <div>
-      <div className="troop">
-        {attackers.map(character => {
+    <div className={locationClasses}>
+      <div className="troop attackers">
+        {attackers.map((character, i) => {
           const { id, health, currentHealth, team, type } = character;
           return (
             <Character
@@ -17,14 +25,14 @@ export default function Game({ activePlayerId, onCharacterClick, attackers, defe
               type={type}
               handleClick={onCharacterClick}
               active={activePlayerId === id}
+              order={i + 1}
             />
           );
         })}
       </div>
-      <hr></hr>
-      <div className="troop">
-        {defenders.map(character => {
-          const { id, health, currentHealth, team } = character;
+      <div className="troop defenders">
+        {defenders.map((character, i) => {
+          const { id, health, currentHealth, team, type } = character;
           return (
             <Character
               key={id}
@@ -32,8 +40,10 @@ export default function Game({ activePlayerId, onCharacterClick, attackers, defe
               currentHealth={currentHealth}
               id={id}
               team={team}
+              type={type}
               handleClick={onCharacterClick}
               active={activePlayerId === id}
+              order={i + 1}
             />
           );
         })}

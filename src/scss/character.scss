@@ -1,0 +1,155 @@
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tiles {
+  position: relative;
+}
+
+.tile {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+
+  &.order-1 {
+    top: -10px;
+    left: 280px;
+    z-index: 1;
+  }
+
+  &.order-2 {
+    top: 60px;
+    left: 220px;
+    z-index: 3;
+  }
+
+  &.order-3 {
+    z-index: 5;
+    top: 130px;
+    left: 150px;
+  }
+
+  &.order-4 {
+    left: 140px;
+    z-index: 2;
+  }
+
+  &.order-5 {
+    top: 70px;
+    left: 80px;
+    z-index: 4;
+  }
+
+  &.order-6 {
+    left: 10px;
+    top: 140px;
+    z-index: 6;
+  }
+}
+
+.highlighter {
+  box-shadow: 0px 5px 11px #00000087;
+  background: transparent;
+  border-radius: 50%;
+  width: 100px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  bottom: -26px;
+  left: -30%;
+  transform: skew(-204deg, -177deg);
+
+  &.attackers {
+    border: 2px inset #e2d213;
+  }
+
+  &.defenders {
+    border: 2px inset #953ac1;
+  }
+
+  &.enemy {
+    border: 2px inset #9a1111;
+  }
+}
+
+.hero-selector {
+  position: absolute;
+  width: 50px;
+  height: 90px;
+  background: red;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  cursor: pointer;
+  z-index: 7;
+}
+
+.health {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  color: red;
+  z-index: 7;
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  background: #0000008c;
+  white-space: nowrap;
+}
+
+// DEFENDERS TRANSFORMATION
+
+.troop.defenders {
+  .tile {
+    transform: rotate3d(0, 1, 0, 180deg);
+
+    &.order-1 {
+      left: 140px;
+    }
+
+    &.order-2 {
+      top: 70px;
+      left: 80px;
+    }
+
+    &.order-3 {
+      left: 10px;
+      top: 140px;
+    }
+
+    &.order-4 {
+      top: -10px;
+      left: 280px;
+    }
+
+    &.order-5 {
+      top: 60px;
+      left: 220px;
+    }
+
+    &.order-6 {
+      top: 130px;
+      left: 150px;
+    }
+  }
+
+  .health {
+    transform: translateX(-50%) rotate3d(0, 1, 0, 180deg);
+  }
+}
+
+// SPECIFIC OVERRIDES
+.knight {
+  width: 90px;
+  height: 135px;
+
+  background-image: url("../images/knight.png");
+  // background-image: url("https://res.cloudinary.com/igocooper/image/upload/v1570051370/knight2_wuzzhu.png");
+  background-position: -46px 440px;
+  background-size: 1000px 521px;
+}

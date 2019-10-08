@@ -1,0 +1,29 @@
+.battlefield {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+// background: rgb(63, 57, 57);
+
+  &.cave {
+    background-image: url("https://www.gamedevmarket.net/wp-content/uploads/b8c0fba2fd3d72e8fa6a0ae4ee6c3709-700x400.png");
+  }
+}
+
+.troop.defenders .tile {
+  transform: rotate3d(0, 1, 0, 180deg);
+}
+
+.troop {
+  margin: 310px 0 20px;
+  display: inline-block;
+  width: 380px;
+  min-height: 300px;
+  position: relative;
+}
+
+.tiles {
+  position: relative;
+}

@@ -1,8 +1,8 @@
 import actionTypes from '../constants/action-types';
 
-export function attack(id, team) {
+export function support(id, team) {
     return {
-        type: actionTypes.ATTACK,
+        type: actionTypes.SUPPORT,
         payload: {
             id, 
             team

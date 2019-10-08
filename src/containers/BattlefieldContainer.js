@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import Game from "../components/Game";
+import Battlefield from "../components/Battlefield";
 import { setActivePlayerId } from "../actions/set-active-player-id";
 import { setActivePlayerIndex } from "../actions/set-active-player-index";
 import { selectNextActivePlayer } from "../actions/select-next-active-player";
-import { applyDamage } from "../actions/apply-damage";
-import { applyHeal } from "../actions/apply-heal";
+import { attack } from "../actions/attack";
+import { support } from "../actions/support";
 import selectors from "../selectors";
 
-class GameContainer extends React.Component {
+class BattlefieldContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,24 +42,30 @@ class GameContainer extends React.Component {
       activePlayerId,
       attackers,
       defenders,
-      applyHeal,
-      applyDamage,
-      selectNextActivePlayer
+      support,
+      attack,
+      selectNextActivePlayer,
+      getCharacterById
     } = this.props;
     const activePlayer =
       attackers.find(character => character.id === activePlayerId) ||
       defenders.find(character => character.id === activePlayerId);
     if (team === activePlayer.team) {
-     
-      applyHeal(id, activePlayer.attack, team);
+      support(id, team);
+      // applyHeal(id, activePlayer.attack, team);
     } else {
-      applyDamage(id, activePlayer.attack, team);
+      const targetHero = getCharacterById(id);
+      if (targetHero.currentHealth <= 0) return;
+      attack(id, team);
     }
+
     selectNextActivePlayer(this.state.charactersOrderedByInitiatives);
   }
 
   render() {
-    return <Game {...this.props} onCharacterClick={this.onCharacterClick} />;
+    return (
+      <Battlefield {...this.props} onCharacterClick={this.onCharacterClick} />
+    );
   }
 }
 
@@ -76,14 +82,15 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setActivePlayerId: id => dispatch(setActivePlayerId(id)),
-    selectNextActivePlayer: charactersOrderedByInitiatives => dispatch(selectNextActivePlayer(charactersOrderedByInitiatives)),
+    selectNextActivePlayer: charactersOrderedByInitiatives =>
+      dispatch(selectNextActivePlayer(charactersOrderedByInitiatives)),
     setActivePlayerIndex: index => dispatch(setActivePlayerIndex(index)),
-    applyDamage: (id, damage, team) => dispatch(applyDamage(id, damage, team)),
-    applyHeal: (id, heal, team) => dispatch(applyHeal(id, heal, team))
+    support: (id, team) => dispatch(support(id, team)),
+    attack: (id, team) => dispatch(attack(id, team))
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(GameContainer);
+)(BattlefieldContainer);
