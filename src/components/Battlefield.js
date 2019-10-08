@@ -7,14 +7,15 @@ export default function Battlefield({
   onCharacterClick,
   attackers,
   defenders,
-  scene
+  scene,
+  cursor
 }) {
-  const locationClasses = classNames("battlefield", "cave", scene);
+  const locationClasses = classNames("battlefield", "cave", scene, `cursor-${cursor}`);
   return (
     <div className={locationClasses}>
       <div className="troop attackers">
         {attackers.map((character, i) => {
-          const { id, health, currentHealth, team, type } = character;
+          const { id, health, currentHealth, team, type, position } = character;
           return (
             <Character
               key={id}
@@ -25,14 +26,14 @@ export default function Battlefield({
               type={type}
               handleClick={onCharacterClick}
               active={activePlayerId === id}
-              order={i + 1}
+              position={position}
             />
           );
         })}
       </div>
       <div className="troop defenders">
         {defenders.map((character, i) => {
-          const { id, health, currentHealth, team, type } = character;
+          const { id, health, currentHealth, team, type, position } = character;
           return (
             <Character
               key={id}
@@ -43,7 +44,7 @@ export default function Battlefield({
               type={type}
               handleClick={onCharacterClick}
               active={activePlayerId === id}
-              order={i + 1}
+              position={position}
             />
           );
         })}

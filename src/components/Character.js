@@ -5,6 +5,7 @@ import selectors from "../selectors";
 import { register } from '../animation/collection';
 import keyframes from '../config/keyframes';
 import animate from "../helpers/animate";
+import { setHoveredElement }  from "../actions/set-hovered-element";
 
 const fps = 20;
 
@@ -56,19 +57,17 @@ class Character extends React.Component {
       handleClick,
       health,
       currentHealth,
-      order,
+      position,
       id,
       team,
       type,
       active,
-      activePlayerTeam
+      activePlayerTeam,
+      setHoveredElement
     } = this.props;
     const { isSelected } = this.state;
 
-    const tileClasses = classNames("tile", `order-${order}`, {
-      "cursor-sword": !active && team !== activePlayerTeam,
-      "cursor-ally": team === activePlayerTeam
-    });
+    const tileClasses = classNames("tile", `order-${position}`);
     const characterClasses = classNames("center", "knight", {
       active: active
     });
@@ -95,9 +94,11 @@ class Character extends React.Component {
           }}
           onMouseEnter={() => {
             this.setState({ isSelected: true });
+            setHoveredElement({id, type: 'character'});
           }}
           onMouseLeave={() => {
             this.setState({ isSelected: false });
+            setHoveredElement(null);
           }}
         >
           {isSelected && (
@@ -124,7 +125,13 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    setHoveredElement: element => dispatch(setHoveredElement(element)),
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Character);

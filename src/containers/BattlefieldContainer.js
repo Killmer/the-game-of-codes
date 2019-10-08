@@ -7,6 +7,7 @@ import { selectNextActivePlayer } from "../actions/select-next-active-player";
 import { attack } from "../actions/attack";
 import { support } from "../actions/support";
 import selectors from "../selectors";
+import checkMeleeAttackConstraints from '../helpers/check-melee-attack-constraints';
 
 class BattlefieldContainer extends React.Component {
   constructor(props) {
@@ -52,10 +53,19 @@ class BattlefieldContainer extends React.Component {
       defenders.find(character => character.id === activePlayerId);
     if (team === activePlayer.team) {
       support(id, team);
-      // applyHeal(id, activePlayer.attack, team);
     } else {
       const targetHero = getCharacterById(id);
       if (targetHero.currentHealth <= 0) return;
+
+      if (activePlayer.attackType === "melee" && !checkMeleeAttackConstraints({
+        attackers,
+        defenders,
+        targetHero,
+        activePlayer
+      })) {
+        return;
+      } 
+
       attack(id, team);
     }
 
@@ -75,7 +85,8 @@ function mapStateToProps(state) {
     activePlayerIndex: state.activePlayer.index,
     attackers: selectors.getAttackers(state),
     defenders: selectors.getDefenders(state),
-    getCharacterById: selectors.getCharacterById(state)
+    getCharacterById: selectors.getCharacterById(state),
+    cursor: state.ui.cursor,
   };
 }
 

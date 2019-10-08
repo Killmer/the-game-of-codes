@@ -2,6 +2,14 @@
     cursor: url("../images/cursors/cursor-sword.png"), auto;
 }
 
-.cursor-ally {
-    cursor: url("../images/cursors/cursor-ally.png"), auto;
+.cursor-default {
+    cursor: url("../images/cursors/cursor-default.png"), auto;
+}
+
+.cursor-disabled {
+    cursor: not-allowed;
+}
+
+.cursor-bow {
+    cursor: grab;
 }
