@@ -2,7 +2,7 @@ import actionTypes from "../constants/action-types";
 import { applyDamage } from "../actions/apply-damage";
 import selectors from "../selectors";
 import getNumberInRange from "../helpers/get-number-in-range";
-import { get } from '../animation/collection';
+import { get } from '../../animation/collection';
 
 const calculateDamage = (targetHero, activeHeroAttack) => {
   const [minDamage, maxDamage] = activeHeroAttack.split("-");
@@ -36,7 +36,7 @@ const attackMiddleware = store => next => action => {
       const {damage, isDying} = calculateDamage(enemyHero, activePlayer.attack);
 
       if (activePlayer.attackType === "massive") {
-        // get(activePlayerId).attack();
+        get(activePlayerId).attack();
         enemyTeam.forEach((hero, i) => {
           const isDead = hero.currentHealth <= 0;
           const {damage, isDying} = calculateDamage(hero, activePlayer.attack);

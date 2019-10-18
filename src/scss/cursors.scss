@@ -10,6 +10,10 @@
     cursor: not-allowed;
 }
 
+.cursor-scroll {
+    cursor: url("../images/cursors/cursor-scroll.png"), auto;;
+}
+
 .cursor-bow {
-    cursor: grab;
+    cursor: url("../images/cursors/cursor-bow.png"), auto;
 }

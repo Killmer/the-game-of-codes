@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import middleware from '../middleware';
+import middleware from '../battlefield/middleware';
 
-import rootReducer from "../reducers";
+import rootReducer from "../battlefield/reducers";
 
 const store = createStore(
   rootReducer,

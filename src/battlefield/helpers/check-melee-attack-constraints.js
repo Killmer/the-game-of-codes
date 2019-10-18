@@ -1,4 +1,4 @@
-import convertToObjectByPosition from '../helpers/convert-to-object-by-position';
+import convertToObjectByPosition from './convert-to-object-by-position';
 
 const checkMeleeAttackConstraints = ({
     attackers,

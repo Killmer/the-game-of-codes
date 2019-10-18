@@ -2,10 +2,11 @@ import React, { Fragment } from "react";
 import classNames from "classnames";
 import { connect } from "react-redux";
 import selectors from "../selectors";
-import { register } from '../animation/collection';
-import keyframes from '../config/keyframes';
+import { register } from "../../animation/collection";
+import keyframes from "../../config/keyframes";
 import animate from "../helpers/animate";
-import { setHoveredElement }  from "../actions/set-hovered-element";
+import toCamelCase from "../helpers/to-camel-case";
+import { setHoveredElement } from "../actions/set-hovered-element";
 
 const fps = 20;
 
@@ -20,35 +21,34 @@ class Character extends React.Component {
     this.attack = this.attack.bind(this);
     this.die = this.die.bind(this);
     this.revive = this.revive.bind(this);
-
   }
 
   componentDidMount() {
     const { id } = this.props;
     register(id, this);
   }
-  
+
   attack() {
     const { type } = this.props;
-    const { attack: attackFrames } = keyframes[type];
+    const { attack: attackFrames } = keyframes[toCamelCase(type)];
     return animate(attackFrames, this.setState.bind(this), fps);
   }
 
   die() {
     const { type } = this.props;
-    const { die: dieFrames } = keyframes[type];
-    return animate(dieFrames, this.setState.bind(this), fps)
+    const { die: dieFrames } = keyframes[toCamelCase(type)];
+    return animate(dieFrames, this.setState.bind(this), fps);
   }
 
   revive() {
     const { type } = this.props;
-    const { revive: reviveFrames } = keyframes[type];
-    return animate(reviveFrames, this.setState.bind(this), fps)
+    const { revive: reviveFrames } = keyframes[toCamelCase(type)];
+    return animate(reviveFrames, this.setState.bind(this), fps);
   }
 
   receiveDamage() {
     const { type } = this.props;
-    const { receiveDamage: receiveDamageFrames } = keyframes[type];
+    const { receiveDamage: receiveDamageFrames } = keyframes[toCamelCase(type)];
     return animate(receiveDamageFrames, this.setState.bind(this), 9);
   }
 
@@ -68,11 +68,10 @@ class Character extends React.Component {
     const { isSelected } = this.state;
 
     const tileClasses = classNames("tile", `order-${position}`);
-    const characterClasses = classNames("center", "knight", {
+    const characterClasses = classNames("center", type, {
       active: active
     });
     const characterHiglighters = classNames("highlighter", {
-
       [team]: active,
       enemy: !active && team !== activePlayerTeam,
       [team]: team === activePlayerTeam
@@ -94,7 +93,7 @@ class Character extends React.Component {
           }}
           onMouseEnter={() => {
             this.setState({ isSelected: true });
-            setHoveredElement({id, type: 'character'});
+            setHoveredElement({ id, type: "character" });
           }}
           onMouseLeave={() => {
             this.setState({ isSelected: false });
@@ -102,12 +101,13 @@ class Character extends React.Component {
           }}
         >
           {isSelected && (
-            <div className="health">{`♥️ ${currentHealth}/${health}`}</div>
+            <div className="health">
+              ♥️
+              <span className="health__numbers"> {currentHealth} / {health}</span>
+            </div>
           )}
           {(active || isSelected) && (
-            <span
-              className={characterHiglighters}
-            ></span>
+            <span className={characterHiglighters}></span>
           )}
           <div className={characterClasses} style={animationStyles}></div>
         </div>
@@ -127,7 +127,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setHoveredElement: element => dispatch(setHoveredElement(element)),
+    setHoveredElement: element => dispatch(setHoveredElement(element))
   };
 }
 

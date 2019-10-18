@@ -4,6 +4,7 @@ import Battlefield from "../components/Battlefield";
 import { setActivePlayerId } from "../actions/set-active-player-id";
 import { setActivePlayerIndex } from "../actions/set-active-player-index";
 import { selectNextActivePlayer } from "../actions/select-next-active-player";
+import { setHoveredElement } from "../actions/set-hovered-element";
 import { attack } from "../actions/attack";
 import { support } from "../actions/support";
 import selectors from "../selectors";
@@ -93,11 +94,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setActivePlayerId: id => dispatch(setActivePlayerId(id)),
-    selectNextActivePlayer: charactersOrderedByInitiatives =>
-      dispatch(selectNextActivePlayer(charactersOrderedByInitiatives)),
+    selectNextActivePlayer: charactersOrderedByInitiatives => {
+      dispatch(selectNextActivePlayer(charactersOrderedByInitiatives));
+      dispatch(setHoveredElement(null));
+    },
     setActivePlayerIndex: index => dispatch(setActivePlayerIndex(index)),
     support: (id, team) => dispatch(support(id, team)),
-    attack: (id, team) => dispatch(attack(id, team))
+    attack: (id, team) => dispatch(attack(id, team)),
+
   };
 }
 

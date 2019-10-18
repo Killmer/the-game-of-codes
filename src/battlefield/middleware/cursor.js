@@ -26,8 +26,11 @@ const cursorMiddleware = store => next => action => {
           store.dispatch(setCursor("disabled"));
         }
         if (isEnemy) {
-          if (activePlayer.attackType === "single" || activePlayer.attackType === "massive") {
+          if (activePlayer.attackType === "single") {
             store.dispatch(setCursor("bow"));
+          }
+          if (activePlayer.attackType === "massive") {
+            store.dispatch(setCursor("scroll"));
           }
           if (activePlayer.attackType === "melee" )  {
             const attackers = selectors.getAttackers(state);

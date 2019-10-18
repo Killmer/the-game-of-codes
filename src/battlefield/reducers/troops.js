@@ -36,10 +36,10 @@ const DEFAULT_TROOPS = [
   },
   {
     team: "attackers",
-    type: "knight",
+    type: "ice-mage",
     attack: '5-10',
     attackType: 'massive',
-    position: 4,
+    position: 4,  
     health: 30,
     currentHealth: 30,
     id: 4,
