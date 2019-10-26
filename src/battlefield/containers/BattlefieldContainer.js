@@ -8,15 +8,18 @@ import { setHoveredElement } from "../actions/set-hovered-element";
 import { attack } from "../actions/attack";
 import { support } from "../actions/support";
 import selectors from "../selectors";
-import checkMeleeAttackConstraints from '../helpers/check-melee-attack-constraints';
+import checkMeleeAttackConstraints from "../helpers/check-melee-attack-constraints";
 
 class BattlefieldContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      charactersOrderedByInitiatives: null
+      charactersOrderedByInitiatives: null,
+      showTroopsHealth: false,
     };
     this.onCharacterClick = this.onCharacterClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.toggleShowTroopsHealthStatus = this.toggleShowTroopsHealthStatus.bind(this);
   }
   componentDidMount() {
     const charactersOrderedByInitiatives = this.calculateInitiatives();
@@ -28,6 +31,12 @@ class BattlefieldContainer extends React.Component {
     this.setState(() => ({
       charactersOrderedByInitiatives
     }));
+
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
   }
 
   calculateInitiatives() {
@@ -58,14 +67,17 @@ class BattlefieldContainer extends React.Component {
       const targetHero = getCharacterById(id);
       if (targetHero.currentHealth <= 0) return;
 
-      if (activePlayer.attackType === "melee" && !checkMeleeAttackConstraints({
-        attackers,
-        defenders,
-        targetHero,
-        activePlayer
-      })) {
+      if (
+        activePlayer.attackType === "melee" &&
+        !checkMeleeAttackConstraints({
+          attackers,
+          defenders,
+          targetHero,
+          activePlayer
+        })
+      ) {
         return;
-      } 
+      }
 
       attack(id, team);
     }
@@ -73,9 +85,23 @@ class BattlefieldContainer extends React.Component {
     selectNextActivePlayer(this.state.charactersOrderedByInitiatives);
   }
 
+  toggleShowTroopsHealthStatus() {
+      this.setState((state) => {
+        return {
+          showTroopsHealth: !state.showTroopsHealth
+        }
+      })
+  }
+
+  handleKeyPress(event) {
+    if (event.code === "ShiftLeft") {
+      this.toggleShowTroopsHealthStatus();
+    }
+  }
+
   render() {
     return (
-      <Battlefield {...this.props} onCharacterClick={this.onCharacterClick} />
+      <Battlefield {...this.props} onCharacterClick={this.onCharacterClick} showTroopsHealth={this.state.showTroopsHealth} />
     );
   }
 }
@@ -87,7 +113,7 @@ function mapStateToProps(state) {
     attackers: selectors.getAttackers(state),
     defenders: selectors.getDefenders(state),
     getCharacterById: selectors.getCharacterById(state),
-    cursor: state.ui.cursor,
+    cursor: state.ui.cursor
   };
 }
 
@@ -96,12 +122,10 @@ function mapDispatchToProps(dispatch) {
     setActivePlayerId: id => dispatch(setActivePlayerId(id)),
     selectNextActivePlayer: charactersOrderedByInitiatives => {
       dispatch(selectNextActivePlayer(charactersOrderedByInitiatives));
-      dispatch(setHoveredElement(null));
     },
     setActivePlayerIndex: index => dispatch(setActivePlayerIndex(index)),
     support: (id, team) => dispatch(support(id, team)),
-    attack: (id, team) => dispatch(attack(id, team)),
-
+    attack: (id, team) => dispatch(attack(id, team))
   };
 }
 

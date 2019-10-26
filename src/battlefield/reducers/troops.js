@@ -1,4 +1,5 @@
 import actionTypes from "../constants/action-types";
+import { ICE_MAGE_ATTACK } from "../constants/mass-attack-types";
 
 const DEFAULT_TROOPS = [
   {
@@ -39,6 +40,7 @@ const DEFAULT_TROOPS = [
     type: "ice-mage",
     attack: '5-10',
     attackType: 'massive',
+    attackId: ICE_MAGE_ATTACK,
     position: 4,  
     health: 30,
     currentHealth: 30,

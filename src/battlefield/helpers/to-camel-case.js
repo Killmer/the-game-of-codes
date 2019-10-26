@@ -1,4 +1,5 @@
 const toCamelCase = (string) => {
+    if (!string || typeof string !== 'string') return string;
     const rawArr = string.split('-');
     const camelCasedrawArr = rawArr.map((element, i) => {
         if (i === 0) {

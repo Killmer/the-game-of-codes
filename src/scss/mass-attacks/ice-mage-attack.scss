@@ -1,0 +1,78 @@
+.frost-area {
+    position: absolute;
+    width: 380px;
+    min-height: 100%;
+  }
+  
+  .snow-ball {
+    opacity: 0;
+    position: absolute;
+    background-position: -826px 160px;
+    background-size: 1240px 570px;
+    width: 104px;
+    height: 115px;
+    background-image: url('https://res.cloudinary.com/igocooper/image/upload/v1570644308/ice-mage_q5jiea.png');
+  
+    &.one {
+      left: 0;
+      top: 5%;
+    }
+  
+    &.two {
+      left: 33%;
+      top: 12%;
+    }
+  
+    &.three {
+      left: 66%;
+      top: -4%;
+    }
+  
+    &.four {
+      left: 16%;
+      top: 1%;
+    }
+  
+    &.five {
+      left: 56%;
+      top: 0;
+    }
+  }
+  
+  
+  .frost-area.active {
+    .snow-ball {
+      opacity: 1;
+      z-index: 999;
+      transition: top 1s cubic-bezier(0.58, 0.04, 0.25, 1), rotate 1s ease, opacity 1s ease;
+  
+      &.one {
+        top: 80%;
+        transform: translate(0, -100%) rotate(35deg);
+      }
+  
+      &.two {
+        left: 33%;
+        top: 80%;
+        transform: translate(0, -100%) rotate(-52deg);
+      }
+  
+      &.three {
+        left: 66%;
+        top: 80%;
+        transform: translate(0, -100%) rotate(95deg);
+      }
+  
+      &.four {
+        left: 16%;
+        top: 60%;
+        transform: translate(0, -100%) rotate(204deg);
+      }
+  
+      &.five {
+        left: 56%;
+        top: 55%;
+        transform: translate(0, -100%) rotate(113deg);
+      }
+    }
+  }

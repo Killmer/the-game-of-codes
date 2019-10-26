@@ -1,0 +1,13 @@
+.mass-attack-animation-container {
+  display: flex;
+  top: 50%;
+  position: absolute;
+  transform: translateY(-50%);
+
+  &.left {
+    justify-content: flex-end;
+  }
+  &.right {
+    justify-content: flex-start;
+  }
+}

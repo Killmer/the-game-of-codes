@@ -4,6 +4,8 @@ import selectors from "../selectors";
 import getNumberInRange from "../helpers/get-number-in-range";
 import { get } from '../../animation/collection';
 
+const getCharacterAnimationInstance = get;
+
 const calculateDamage = (targetHero, activeHeroAttack) => {
   const [minDamage, maxDamage] = activeHeroAttack.split("-");
   let isDying = false;
@@ -36,7 +38,8 @@ const attackMiddleware = store => next => action => {
       const {damage, isDying} = calculateDamage(enemyHero, activePlayer.attack);
 
       if (activePlayer.attackType === "massive") {
-        get(activePlayerId).attack();
+        getCharacterAnimationInstance(activePlayerId).attack();
+        getCharacterAnimationInstance(activePlayer.attackId).play();
         enemyTeam.forEach((hero, i) => {
           const isDead = hero.currentHealth <= 0;
           const {damage, isDying} = calculateDamage(hero, activePlayer.attack);
@@ -45,10 +48,10 @@ const attackMiddleware = store => next => action => {
 
           if (isDying && isDead) return;
           if (isDying && !isDead) {
-            get(hero.id).die();
+            getCharacterAnimationInstance(hero.id).die();
             return;
           }
-          get(hero.id).receiveDamage();
+          getCharacterAnimationInstance(hero.id).receiveDamage();
         });
         next(action);
         break;
@@ -56,11 +59,11 @@ const attackMiddleware = store => next => action => {
       store.dispatch(applyDamage(id, damage, team));
       //apply animation
       if(isDying) {
-        get(id).die();
+        getCharacterAnimationInstance(id).die();
       } else {
-        get(id).receiveDamage();
+        getCharacterAnimationInstance(id).receiveDamage();
       }
-      get(activePlayerId).attack();
+      getCharacterAnimationInstance(activePlayerId).attack();
       next(action);
       break;
     }

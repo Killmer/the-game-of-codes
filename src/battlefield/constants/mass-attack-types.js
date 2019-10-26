@@ -1,0 +1,1 @@
+export const ICE_MAGE_ATTACK = 'ICE_MAGE_ATTACK';

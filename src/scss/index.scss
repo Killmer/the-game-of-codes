@@ -2,6 +2,11 @@
 @import 'battlefield';
 @import 'character';
 @import 'cursors';
+@import 'mass-attack-animation-container.scss';
+
+// MASS ATTACKS
+@import 'mass-attacks/ice-mage-attack.scss';
+
 
 body {
   margin: 0;

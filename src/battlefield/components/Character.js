@@ -7,6 +7,7 @@ import keyframes from "../../config/keyframes";
 import animate from "../helpers/animate";
 import toCamelCase from "../helpers/to-camel-case";
 import { setHoveredElement } from "../actions/set-hovered-element";
+import sounds from "../../sounds";
 
 const fps = 20;
 
@@ -21,6 +22,9 @@ class Character extends React.Component {
     this.attack = this.attack.bind(this);
     this.die = this.die.bind(this);
     this.revive = this.revive.bind(this);
+    this.attackSound = React.createRef();
+    this.dieSound = React.createRef();
+    this.receiveDamageSound = React.createRef();
   }
 
   componentDidMount() {
@@ -31,12 +35,14 @@ class Character extends React.Component {
   attack() {
     const { type } = this.props;
     const { attack: attackFrames } = keyframes[toCamelCase(type)];
+    this.attackSound.current.play();
     return animate(attackFrames, this.setState.bind(this), fps);
   }
 
   die() {
     const { type } = this.props;
     const { die: dieFrames } = keyframes[toCamelCase(type)];
+    this.dieSound.current.play();
     return animate(dieFrames, this.setState.bind(this), fps);
   }
 
@@ -49,6 +55,7 @@ class Character extends React.Component {
   receiveDamage() {
     const { type } = this.props;
     const { receiveDamage: receiveDamageFrames } = keyframes[toCamelCase(type)];
+    this.receiveDamageSound.current.play();
     return animate(receiveDamageFrames, this.setState.bind(this), 9);
   }
 
@@ -63,7 +70,8 @@ class Character extends React.Component {
       type,
       active,
       activePlayerTeam,
-      setHoveredElement
+      setHoveredElement,
+      showTroopsHealth
     } = this.props;
     const { isSelected } = this.state;
 
@@ -100,10 +108,13 @@ class Character extends React.Component {
             setHoveredElement(null);
           }}
         >
-          {isSelected && (
+          {(showTroopsHealth || isSelected) && (
             <div className="health">
               ♥️
-              <span className="health__numbers"> {currentHealth} / {health}</span>
+              <span className="health__numbers">
+                {" "}
+                {currentHealth} / {health}
+              </span>
             </div>
           )}
           {(active || isSelected) && (
@@ -111,6 +122,20 @@ class Character extends React.Component {
           )}
           <div className={characterClasses} style={animationStyles}></div>
         </div>
+        <audio
+          ref={this.attackSound}
+          src={sounds[toCamelCase(type)] && sounds[toCamelCase(type)].attack}
+        ></audio>
+        <audio
+          ref={this.dieSound}
+          src={sounds[toCamelCase(type)] && sounds[toCamelCase(type)].die}
+        ></audio>
+        <audio
+          ref={this.receiveDamageSound}
+          src={
+            sounds[toCamelCase(type)] && sounds[toCamelCase(type)].receiveDamage
+          }
+        ></audio>
       </Fragment>
     );
   }
