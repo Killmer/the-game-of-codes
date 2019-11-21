@@ -45,7 +45,7 @@ const DEFAULT_TROOPS = [
     health: 30,
     currentHealth: 30,
     id: 4,
-    initiative: 1,
+    initiative: 8,
   },
   {
     team: "attackers",

@@ -1,6 +1,6 @@
 import actionTypes from '../constants/action-types';
 
-export function applyHeal(id, heal, team) {
+function applyHeal(id, heal, team) {
     return {
         type: actionTypes.APPLY_HEAL,
         payload: {
@@ -10,3 +10,5 @@ export function applyHeal(id, heal, team) {
         }
     };
 }
+
+export default applyHeal;

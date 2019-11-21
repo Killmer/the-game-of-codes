@@ -1,6 +1,6 @@
 import actionTypes from '../constants/action-types';
 
-export function attack(id, team) {
+function attack(id, team) {
     return {
         type: actionTypes.ATTACK,
         payload: {
@@ -9,3 +9,5 @@ export function attack(id, team) {
         }
     };
 }
+
+export default attack;

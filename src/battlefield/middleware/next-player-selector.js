@@ -1,14 +1,15 @@
 import actionTypes from "../constants/action-types";
-import { setActivePlayerId } from "../actions/set-active-player-id";
-import { setActivePlayerIndex } from "../actions/set-active-player-index";
+import actions from "../actions";
 import selectors from "../selectors";
+
+const { setActivePlayerId, setActivePlayerIndex } = actions;
 
 const nextPlayerSelector = store => next => action => {
   switch (action.type) {
     case actionTypes.SELECT_NEXT_ACTIVE_PLAYER: {
       const state = store.getState();
       const getCharacterById = selectors.getCharacterById(state);
-    //   const activePlayerId = state.activePlayer.id;
+
       const activePlayerIndex = state.activePlayer.index;
       let nextActivePlayerIndex = activePlayerIndex + 1;
       const { charactersOrderedByInitiatives } = action.payload;

@@ -46,6 +46,11 @@ const cursorMiddleware = store => next => action => {
   switch (action.type) {
     case actionTypes.SET_HOVERED_ELEMENT: {
       const state = store.getState();
+      const isBattleFieldDisabled = selectors.getBattleFieldStatus(state);
+      if (isBattleFieldDisabled) {
+        next(action);
+        return;
+      }
       const getCharacterById = selectors.getCharacterById(state);
       const { element } = action.payload;
       const activePlayerId = state.activePlayer.id;
@@ -67,7 +72,7 @@ const cursorMiddleware = store => next => action => {
       const element = selectors.getHoveredElement(state);
       const activePlayerId = state.activePlayer.id;
       const activePlayer = getCharacterById(activePlayerId);
-      const selectedPlayer = getCharacterById(element.id);
+      const selectedPlayer = element && getCharacterById(element.id);
       const attackers = selectors.getAttackers(state);
       const defenders = selectors.getDefenders(state);
       const nextCursor = detectCursor({element, activePlayer, selectedPlayer, attackers, defenders });

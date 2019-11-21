@@ -1,6 +1,6 @@
 import actionTypes from '../constants/action-types';
 
-export function support(id, team) {
+function support(id, team) {
     return {
         type: actionTypes.SUPPORT,
         payload: {
@@ -9,3 +9,5 @@ export function support(id, team) {
         }
     };
 }
+
+export default support;

@@ -158,11 +158,36 @@
 }
 
 .ice-mage {
+  width: 140px;
+  height: 135px;
+  background-image: url("../images/characters/ice-mage.png");
+  // background-image: url("https://res.cloudinary.com/igocooper/image/upload/v1570644308/");
+  background-position: -53px -41px;
+  background-size: 800px 1565px;
+}
+
+.archer {
   width: 110px;
-  height: 130px;
-  background-image: url("https://res.cloudinary.com/igocooper/image/upload/v1570644308/ice-mage_q5jiea.png");
-  background-position: -66px 520px;
-  background-size: 1240px 570px;
+  height: 115px;
+  background-image: url("../images/characters/archer.png");
+  background-position: -58px -30px;
+  background-size: 1448px 500px;
+}
+
+.skeleton-knight {
+  width: 115px;
+  height: 115px;
+  background-image: url("../images/characters/skeleton-knight.png");
+  background-position: -45px -24px;
+  background-size: 1448px 500px;
+}
+
+.spear-knight {
+  width: 150px;
+  height: 120px;
+  background-image: url("../images/characters/spear-knight.png");
+  background-position: -151px 5px;
+  background-size: 1311px 684px;
 }
 
 .golem {

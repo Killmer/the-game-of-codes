@@ -3,12 +3,15 @@ import classNames from "classnames";
 import { connect } from "react-redux";
 import selectors from "../selectors";
 import { register } from "../../animation/collection";
+import { set } from "../../config/character-nodes-reference";
 import keyframes from "../../config/keyframes";
 import animate from "../helpers/animate";
 import toCamelCase from "../helpers/to-camel-case";
 import { setHoveredElement } from "../actions/set-hovered-element";
 import sounds from "../../sounds";
 
+
+const registerCharacterRef = set;
 const fps = 20;
 
 class Character extends React.Component {
@@ -25,11 +28,13 @@ class Character extends React.Component {
     this.attackSound = React.createRef();
     this.dieSound = React.createRef();
     this.receiveDamageSound = React.createRef();
+    this.characterRef = React.createRef();
   }
 
   componentDidMount() {
     const { id } = this.props;
     register(id, this);
+    registerCharacterRef(id, this.characterRef.current);
   }
 
   attack() {
@@ -71,7 +76,8 @@ class Character extends React.Component {
       active,
       activePlayerTeam,
       setHoveredElement,
-      showTroopsHealth
+      showTroopsHealth,
+      isBattleFieldDisabled
     } = this.props;
     const { isSelected } = this.state;
 
@@ -95,17 +101,22 @@ class Character extends React.Component {
     return (
       <Fragment>
         <div
+          ref={this.characterRef}
           className={tileClasses}
           onClick={() => {
             handleClick(id, team);
           }}
           onMouseEnter={() => {
             this.setState({ isSelected: true });
-            setHoveredElement({ id, type: "character" });
+            if (!isBattleFieldDisabled) {
+              setHoveredElement({ id, type: "character" });
+            }
           }}
           onMouseLeave={() => {
             this.setState({ isSelected: false });
-            setHoveredElement(null);
+            if (!isBattleFieldDisabled) {
+              setHoveredElement(null);
+            }
           }}
         >
           {(showTroopsHealth || isSelected) && (
@@ -146,7 +157,8 @@ function mapStateToProps(state) {
   const activePlayer = getCharacterById(state.activePlayer.id);
   const activePlayerTeam = activePlayer && activePlayer.team;
   return {
-    activePlayerTeam: activePlayerTeam
+    activePlayerTeam: activePlayerTeam,
+    isBattleFieldDisabled: selectors.getBattleFieldStatus(state),
   };
 }
 

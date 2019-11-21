@@ -1,12 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Battlefield from "../components/Battlefield";
-import { setActivePlayerId } from "../actions/set-active-player-id";
-import { setActivePlayerIndex } from "../actions/set-active-player-index";
-import { selectNextActivePlayer } from "../actions/select-next-active-player";
-import { setHoveredElement } from "../actions/set-hovered-element";
-import { attack } from "../actions/attack";
-import { support } from "../actions/support";
+import actions from "../actions";
 import selectors from "../selectors";
 import checkMeleeAttackConstraints from "../helpers/check-melee-attack-constraints";
 
@@ -14,23 +9,26 @@ class BattlefieldContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      charactersOrderedByInitiatives: null,
-      showTroopsHealth: false,
+      showTroopsHealth: false
     };
     this.onCharacterClick = this.onCharacterClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.toggleShowTroopsHealthStatus = this.toggleShowTroopsHealthStatus.bind(this);
+    this.toggleShowTroopsHealthStatus = this.toggleShowTroopsHealthStatus.bind(
+      this
+    );
   }
   componentDidMount() {
     const charactersOrderedByInitiatives = this.calculateInitiatives();
-    const { setActivePlayerId, setActivePlayerIndex } = this.props;
+    const {
+      setActivePlayerId,
+      setActivePlayerIndex,
+      setInitiatives
+    } = this.props;
 
     setActivePlayerId(charactersOrderedByInitiatives[0].id);
     setActivePlayerIndex(0);
 
-    this.setState(() => ({
-      charactersOrderedByInitiatives
-    }));
+    setInitiatives(charactersOrderedByInitiatives);
 
     document.addEventListener("keydown", this.handleKeyPress);
   }
@@ -55,9 +53,14 @@ class BattlefieldContainer extends React.Component {
       defenders,
       support,
       attack,
-      selectNextActivePlayer,
-      getCharacterById
+      getCharacterById,
+      setBattlefieldStatus,
+      isDisabled
     } = this.props;
+
+    if (isDisabled) return;
+    setBattlefieldStatus(true);
+
     const activePlayer =
       attackers.find(character => character.id === activePlayerId) ||
       defenders.find(character => character.id === activePlayerId);
@@ -81,16 +84,14 @@ class BattlefieldContainer extends React.Component {
 
       attack(id, team);
     }
-
-    selectNextActivePlayer(this.state.charactersOrderedByInitiatives);
   }
 
   toggleShowTroopsHealthStatus() {
-      this.setState((state) => {
-        return {
-          showTroopsHealth: !state.showTroopsHealth
-        }
-      })
+    this.setState(state => {
+      return {
+        showTroopsHealth: !state.showTroopsHealth
+      };
+    });
   }
 
   handleKeyPress(event) {
@@ -101,7 +102,11 @@ class BattlefieldContainer extends React.Component {
 
   render() {
     return (
-      <Battlefield {...this.props} onCharacterClick={this.onCharacterClick} showTroopsHealth={this.state.showTroopsHealth} />
+      <Battlefield
+        {...this.props}
+        onCharacterClick={this.onCharacterClick}
+        showTroopsHealth={this.state.showTroopsHealth}
+      />
     );
   }
 }
@@ -113,19 +118,19 @@ function mapStateToProps(state) {
     attackers: selectors.getAttackers(state),
     defenders: selectors.getDefenders(state),
     getCharacterById: selectors.getCharacterById(state),
-    cursor: state.ui.cursor
+    cursor: state.ui.cursor,
+    isDisabled: selectors.getBattleFieldStatus(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setActivePlayerId: id => dispatch(setActivePlayerId(id)),
-    selectNextActivePlayer: charactersOrderedByInitiatives => {
-      dispatch(selectNextActivePlayer(charactersOrderedByInitiatives));
-    },
-    setActivePlayerIndex: index => dispatch(setActivePlayerIndex(index)),
-    support: (id, team) => dispatch(support(id, team)),
-    attack: (id, team) => dispatch(attack(id, team))
+    setBattlefieldStatus: (status) => dispatch(actions.setBattlefieldStatus(status)),
+    setActivePlayerId: id => dispatch(actions.setActivePlayerId(id)),
+    setActivePlayerIndex: index => dispatch(actions.setActivePlayerIndex(index)),
+    support: (id, team) => dispatch(actions.support(id, team)),
+    attack: (id, team) => dispatch(actions.attack(id, team)),
+    setInitiatives: initiatives => dispatch(actions.setInitiatives(initiatives)),
   };
 }
 

@@ -10,7 +10,7 @@ export default function Battlefield({
   attackers,
   defenders,
   scene,
-  cursor
+  cursor,
 }) {
   const locationClasses = classNames(
     "battlefield",
