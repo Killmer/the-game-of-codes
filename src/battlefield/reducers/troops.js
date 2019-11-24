@@ -1,5 +1,5 @@
 import actionTypes from "../constants/action-types";
-import { ICE_MAGE_ATTACK } from "../constants/mass-attack-types";
+import { ARCHER_ATTACK, ICE_MAGE_ATTACK } from "../constants/mass-attack-types";
 
 const DEFAULT_TROOPS = [
   {
@@ -38,7 +38,7 @@ const DEFAULT_TROOPS = [
   {
     team: "attackers",
     type: "ice-mage",
-    attack: '5-10',
+    attack: '50-60',
     attackType: 'massive',
     attackId: ICE_MAGE_ATTACK,
     position: 4,  
@@ -49,26 +49,28 @@ const DEFAULT_TROOPS = [
   },
   {
     team: "attackers",
-    type: "knight",
-    attack: '5-7',
+    type: "archer",
+    attack: '50-70',
     attackType: 'single',
+    attackId: ARCHER_ATTACK,
     position: 5,
     health: 30,
     currentHealth: 30,
     id: 5,
-    initiative: 3,
+    initiative: 9,
   },
-  {
-    team: "attackers",
-    type: "knight",
-    attack: '5-7',
-    attackType: 'single',
-    position: 6,
-    health: 40,
-    currentHealth: 40,
-    id: 6,
-    initiative: 3,
-  }
+  // {
+  //   team: "attackers",
+  //   type: "archer",
+  //   attack: '50-70',
+  //   attackType: 'single',
+  //   attackId: ARCHER_ATTACK,
+  //   position: 6,
+  //   health: 40,
+  //   currentHealth: 40,
+  //   id: 6,
+  //   initiative: 9,
+  // }
 ];
 const DEFAULT_STATE = {
   attackers: DEFAULT_TROOPS,

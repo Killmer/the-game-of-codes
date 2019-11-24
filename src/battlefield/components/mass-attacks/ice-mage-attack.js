@@ -52,7 +52,7 @@ export default class IceMageAttack extends PureComponent {
 	  getNumberInRange(1, numberOfAttackTypes)
 	];
 	// return attackType;
-	return "frost-bolt-attack";
+	return "frost-circle-attack";
   }
 
   getFrostBoltStyles(characterBounds) {

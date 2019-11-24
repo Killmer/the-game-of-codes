@@ -58,18 +58,21 @@ class BattlefieldContainer extends React.Component {
       isDisabled
     } = this.props;
 
+    console.log('isDisabled', isDisabled)
+
     if (isDisabled) return;
-    setBattlefieldStatus(true);
+
 
     const activePlayer =
       attackers.find(character => character.id === activePlayerId) ||
       defenders.find(character => character.id === activePlayerId);
     if (team === activePlayer.team) {
+      // TODO: enable support only for priests
+      return;
       support(id, team);
     } else {
       const targetHero = getCharacterById(id);
       if (targetHero.currentHealth <= 0) return;
-
       if (
         activePlayer.attackType === "melee" &&
         !checkMeleeAttackConstraints({
@@ -82,6 +85,7 @@ class BattlefieldContainer extends React.Component {
         return;
       }
 
+      setBattlefieldStatus(true);
       attack(id, team);
     }
   }

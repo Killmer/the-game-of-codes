@@ -65,7 +65,30 @@ const attackMiddleware = store => next => action => {
           });
 
           // SELECT NEXT PLAYER
-          store.dispatch(selectNextActivePlayer(charactersOrderedByInitiatives));
+          store.dispatch(
+            selectNextActivePlayer(charactersOrderedByInitiatives)
+          );
+          store.dispatch(setBattlefieldStatus(false));
+          next(action);
+        });
+        break;
+      }
+      if (activePlayer.attackType === "single") {
+        Promise.all([
+          getCharacterAnimationInstance(activePlayerId).attack(),
+          getCharacterAnimationInstance(activePlayer.attackId).play()
+        ]).then(() => {
+          store.dispatch(applyDamage(id, damage, team));
+          if (isDying) {
+            getCharacterAnimationInstance(id).die();
+          } else {
+            getCharacterAnimationInstance(id).receiveDamage();
+          }
+
+          // SELECT NEXT PLAYER
+          store.dispatch(
+            selectNextActivePlayer(charactersOrderedByInitiatives)
+          );
           store.dispatch(setBattlefieldStatus(false));
           next(action);
         });

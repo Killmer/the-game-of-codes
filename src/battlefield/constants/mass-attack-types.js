@@ -1,1 +1,2 @@
 export const ICE_MAGE_ATTACK = 'ICE_MAGE_ATTACK';
+export const ARCHER_ATTACK = 'ARCHER_ATTACK';
