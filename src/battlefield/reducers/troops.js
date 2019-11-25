@@ -26,7 +26,7 @@ const DEFAULT_TROOPS = [
   },
   {
     team: "attackers",
-    type: "knight",
+    type: "spear-knight",
     attack: '15-22',
     attackType: 'melee',
     position: 3,

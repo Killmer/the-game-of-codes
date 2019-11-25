@@ -10,6 +10,11 @@ export default {
         receiveDamage: maleReceiveDamage,
         die: maleDie,
     },
+    spearKnight: {
+        attack: swordAttack,
+        receiveDamage: maleReceiveDamage,
+        die: maleDie,
+    },
     iceMage: {
         attack: iceMassive,
         receiveDamage: maleReceiveDamage,
