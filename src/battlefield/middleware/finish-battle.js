@@ -2,7 +2,7 @@ import actionTypes from "../constants/action-types";
 import actions from "../actions";
 import selectors from "../selectors";
 
-// const { setActivePlayerIndex } = actions;
+const { showDialog } = actions;
 
 const finishBattle = store => next => action => {
   switch (action.type) {
@@ -21,11 +21,13 @@ const finishBattle = store => next => action => {
       console.log('defendersTeamIsDead',defendersTeamIsDead);
 
       if(attackerTeamIsDead) {
-        alert('DEFENDERS TEAM WIN');
+        store.dispatch(showDialog({title: 'DEFENDERS WINS'}));
+        next(action);
+        break;
       }
 
       if(defendersTeamIsDead) {
-        alert('ATTACKERS TEAM WIN');
+        store.dispatch(showDialog({title: 'ATTACKERS WINS'}));
       }
 
 

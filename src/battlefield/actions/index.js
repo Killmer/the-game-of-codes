@@ -8,6 +8,8 @@ import setInitiatives from './set-initiatives';
 import support from './support';
 import attack from './attack';
 import selectNextActivePlayer from './select-next-active-player';
+import showDialog from './show-dialog';
+import hideDialog from './hide-dialog';
 
 export default {
     setActivePlayerId,
@@ -20,4 +22,6 @@ export default {
     support,
     attack,
     toggleBattlefieldStatus,
+    showDialog,
+    hideDialog,
 };

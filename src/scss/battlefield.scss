@@ -5,7 +5,7 @@
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
-// background: rgb(63, 57, 57);
+  // background: rgb(63, 57, 57);
 
   &.cave {
     background-image: url("https://www.gamedevmarket.net/wp-content/uploads/b8c0fba2fd3d72e8fa6a0ae4ee6c3709-700x400.png");
@@ -27,3 +27,76 @@
 .tiles {
   position: relative;
 }
+
+//UI
+.ui {
+  .left {
+    position: fixed;
+    bottom: -45px;
+    left: -45px;
+  }
+
+  .right {
+    position: fixed;
+    bottom: -45px;
+    right: -45px;
+  }
+  .hero-img {
+    box-shadow: 3px -4px 14px 2px #00000087;
+    background: transparent;
+    border-radius: 50%;
+    width: 200px !important;
+    height: 200px !important;
+    display: inline-block;
+  
+    &.attacker {
+      border: 2px solid #e2d218;
+    }
+  
+    &.defender {
+      border: 2px solid rgba(167, 5, 5, 0.808);
+      transform: rotate3d(0, 1, 0, 180deg);
+    }
+  
+    &.archer {
+      background-image: url("../images/characters/archer.png");
+      background-position: -420px -385px;
+      background-size: 2896px 1000px;
+    }
+  
+    &.knight {
+      background-image: url("../images/characters/knight.png");
+      background-position: -46px 550px;
+      background-size: 2000px 1042px;
+    }
+  
+    &.ice-mage {
+      background-image: url("../images/characters/ice-mage.png");
+      background-position: -153px -95px;
+      background-size: 1600px 3300px;
+    }
+  }
+
+  .stats {
+    position: absolute;
+    top: 80px;
+    display: block;
+    color: red;
+    z-index: 7;
+    padding: 0.1em 0.4em;
+    border-radius: 6px;
+    background: #0000008c;
+    white-space: nowrap;
+    
+    &.float-right {
+      left: 205px;
+    }
+    &.float-left {
+      right: 205px;
+    }
+    &__numbers {
+      color: #fff;
+    }
+  }
+}
+

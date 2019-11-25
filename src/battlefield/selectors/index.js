@@ -5,6 +5,8 @@ import getHoveredElement from './getHoveredElement';
 import getMassAttackIds from './mass-attack-ids';
 import getBattleFieldStatus from './getBattlefieldStatus';
 import getInitiatives from './initiatives';
+import getDialogStatus from './getDialogStatus';
+import getDialogProps from './getDialogProps';
 
 export default {
     getAttackers,
@@ -14,4 +16,6 @@ export default {
     getMassAttackIds,
     getBattleFieldStatus,
     getInitiatives,
+    getDialogStatus,
+    getDialogProps,
 }

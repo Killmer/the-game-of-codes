@@ -105,11 +105,26 @@ class BattlefieldContainer extends React.Component {
   }
 
   render() {
+    const {
+      activePlayerId,
+      attackers,
+      defenders,
+      getCharacterById,
+      hoveredElement
+    } = this.props;
+
+    const activePlayer = attackers.find(character => character.id === activePlayerId) ||
+    defenders.find(character => character.id === activePlayerId);
+    const targetHeroId = hoveredElement && hoveredElement.id;
+    const targetHero = getCharacterById(targetHeroId);
+
     return (
       <Battlefield
         {...this.props}
         onCharacterClick={this.onCharacterClick}
         showTroopsHealth={this.state.showTroopsHealth}
+        activePlayer={activePlayer}
+        targetHero={targetHero}
       />
     );
   }
@@ -123,7 +138,8 @@ function mapStateToProps(state) {
     defenders: selectors.getDefenders(state),
     getCharacterById: selectors.getCharacterById(state),
     cursor: state.ui.cursor,
-    isDisabled: selectors.getBattleFieldStatus(state)
+    isDisabled: selectors.getBattleFieldStatus(state),
+    hoveredElement: selectors.getHoveredElement(state),
   };
 }
 
